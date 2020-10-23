@@ -1,3 +1,3 @@
-let stories = ['geddy', 'neil', 'alex'];
-module.exports = stories
+let start = ['thread', 'ped', 'fed'];
+module.exports = start
 let ejs = require('ejs');

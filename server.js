@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 3000
 const mongoose = require('mongoose');
-const stories = require('./models/stories.js')
+const start = require('./models/stories.js')
 const mongoURI = 'mongodb://localhost:27017/';
 const db = mongoose.connection;
 let ejs = require('ejs');
@@ -17,7 +17,9 @@ app.get('/', ( req, res )=>{
 });
 
 app.get('/start', (req, res) => {
-  res.render('index.ejs');
+  res.render('index.ejs', {
+    start:start
+  });
 })
 app.get('/start/new', (req, res) => {
   res.render('new.ejs')
