@@ -19,6 +19,10 @@ app.get('/', ( req, res )=>{
 app.get('/start', (req, res) => {
   res.render('index.ejs');
 })
+app.get('/start/new', (req, res) => {
+  res.render('new.ejs')
+})
+
 app.get('/start/:index', (req,res) => {
     res.render('show.ejs',
      {

@@ -1,0 +1,9 @@
+<%- include('./partials/header.ejs') %>
+<h1> Add a Thread </h1>
+<form action="/start" method="POST">
+	<label for="title">Title</label>
+	<input type="text" name="name" id="title"/>
+	<input type="submit" value="Submit">
+
+</form>
+<%- include('./partials/footer.ejs') %>
