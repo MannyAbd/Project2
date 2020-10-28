@@ -14,6 +14,10 @@ app.get('/', ( req, res )=>{
   res.send('!');
 });
 
+app.get('/start/new', (req, res) => {
+  res.render('new.ejs')
+})
+
 app.get('/start', (req, res) => {
   Start.find({}, (error, allThreads) => {
     res.render('index.ejs', {
@@ -22,29 +26,6 @@ app.get('/start', (req, res) => {
   })
 })
 
-
-app.get('/start/new', (req, res) => {
-  res.render('new.ejs')
-})
-
-app.get('/start/:id', (req,res)=>{
-  Start.findById(req.params.id, (error, threadId)=>{
-    res.render('show.ejs',{
-    start : threadId
-      })
-    })
-  });
-
-app.post('/thread', (req, res) => {
-  Start.create(req.body, (error, createdStart) => {
-    if (error) {
-      console.log(error)
-    }
-    else{
-      res.redirect('/start')
-     }
-  })
-})
 app.get('/start/seed', (req, res)=> {
   Start.create ([
     {
@@ -62,12 +43,37 @@ app.get('/start/seed', (req, res)=> {
   })
 })
 
-// app.get('/start/:id/edit', (req, res) =>{
-//   res.render('edit.ejs', {
-//     threadId : threadId[req.params.id],
-//     id: req.params.id
-//   })
-// })
+app.get('/start/:id', (req,res)=>{
+  Start.findById(req.params.id, (error, threadId)=>{
+    res.render('show.ejs',{
+    start : threadId
+      })
+    })
+  });
+
+app.delete('/start/:id', (req, res) =>{
+  Start.findByIdAndRemove(req.params.id, (err, id)=>{
+    res.redirect('/start')
+  })
+})
+
+app.get('/start/:id/edit', (req, res) =>{
+  Start.findById(req.params.id, (err, editThread) =>{
+    res.render('edit.ejs', {
+      id: editThread
+    })
+  })
+})
+app.post('/start/thread', (req, res) => {
+  Start.create(req.body, (error, createdStart) => {
+    if (error) {
+      console.log(error)
+    }
+    else{
+      res.redirect('/start')
+     }
+  })
+})
 
 mongoose.connect(mongoURI, {
   useFindAndModify: false,

@@ -2,10 +2,6 @@
 <%- include('./partials/nav.ejs') %>
 
 <h1>List of Threads</h1>
-
- <%=start.title; %>  <%=start.author; %>
-
- <nav>
-     <a href="/start">Back to Index</a>
+<a id="edit" href="/start/<%=id%>/edit">Edit</a>
 
 <%- include('./partials/footer.ejs') %>
