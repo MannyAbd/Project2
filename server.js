@@ -66,6 +66,7 @@ mongoose.connect(mongoURI, {
 //   body: 'hi',
 //   author: 'manny'
 // };
+
 // app.get('/start/:id', (req, res) => {
 //   res.render('edit.ejs', {
 //     id: Start[req.params.id],

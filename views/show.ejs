@@ -2,7 +2,13 @@
 <%- include('./partials/nav.ejs') %>
 
 <h1>List of Threads</h1>
-
 <a href="/start/<%= threadId %>">Thread</a>
+<%if  { %>
+      : <%= %>
+      <button></button>
+  <%} else { %>
+        <p></p>
+    <% } %>
+    </form>
 
 <%- include('./partials/footer.ejs') %>
