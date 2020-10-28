@@ -8,5 +8,6 @@ const Schema  = mongoose.Schema;
    comments: [{ body: String, date: Date }],
    // date: { type: Date, default: Date.now },
  });
+ 
 const Start = mongoose.model('start', startSchema)
 module.exports = Start
