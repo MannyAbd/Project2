@@ -15,19 +15,22 @@ app.get('/', ( req, res )=>{
 });
 
 app.get('/start', (req, res) => {
-  res.render('index.ejs', {
-    start:Start
+  Start.find({}, (error, allThreads) => {
+    res.render('index.ejs', {
+      start:allThreads
+    })
   })
 })
+
 
 app.get('/start/new', (req, res) => {
   res.render('new.ejs')
 })
 
 app.get('/start/:id', (req,res)=>{
-  Start.find({}, (error, threadId)=>{
+  Start.findById(req.params.id, (error, threadId)=>{
     res.render('show.ejs',{
-    threadId : req.params.id
+    start : threadId
       })
     })
   });
@@ -38,17 +41,33 @@ app.post('/thread', (req, res) => {
       console.log(error)
     }
     else{
-      res.redirect('/start/id')
+      res.redirect('/start')
      }
   })
 })
-
-app.get('/start/:id/edit', (req, res) =>{
-  res.render('edit.ejs', {
-    threadId : threadId[req.params.id],
-    id: req.params.id
+app.get('/start/seed', (req, res)=> {
+  Start.create ([
+    {
+      title:  'yeah',
+      author: 'manny',
+      body:   'im here',
+    },
+  {
+    title:  'wow',
+    author: 'manny',
+    body:   'yo yo yo',
+  }
+], (error, data) => {
+  res.redirect('/start')
   })
 })
+
+// app.get('/start/:id/edit', (req, res) =>{
+//   res.render('edit.ejs', {
+//     threadId : threadId[req.params.id],
+//     id: req.params.id
+//   })
+// })
 
 mongoose.connect(mongoURI, {
   useFindAndModify: false,
@@ -74,15 +93,15 @@ mongoose.connect(mongoURI, {
 //  })
 // })
 
-app.post('/thread', (req, res) => {
-  Start.push(req.body)
-  res.redirect('/start/')
-})
+// app.post('/thread', (req, res) => {
+//   Start.push(req.body)
+//   res.redirect('/start/')
+// })
 
-app.put('/start/:id', (req, res) => {
-  Start[req.params.id] = req.body
-  res.redirect('/thread')
-})
+// app.put('/start/:id', (req, res) => {
+//   Start[req.params.id] = req.body
+//   res.redirect('/thread')
+// })
 
 app.listen(PORT, () => {
   console.log('listening on port', PORT)
