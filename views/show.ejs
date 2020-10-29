@@ -2,6 +2,19 @@
 <%- include('./partials/nav.ejs') %>
 
 <h1>List of Threads</h1>
-<a id="edit" href="/start/<%=id%>/edit">Edit</a>
+<ul>
+    <td>
+      <% for(let i = 0; i < start.length; i++) { %>
+        <h4><%=start[i].title%></h4> 
+        <p>Written by: <%=start[i].author%> </p>
+        <p>Scene: <%=start[i].body%></p>
+
+      <form  action="/start/<%=start[i].id%>?_method=DELETE" method="POST" >
+         <input type="submit" value="DELETE">
+       </form>
+         <a href="/start/<%=start[i].id%>/edit">Edit</a>
+    </td>
+  <%}%>
+</ul>
 
 <%- include('./partials/footer.ejs') %>

@@ -45,12 +45,12 @@ app.get('/start/seed', (req, res)=> {
 })
 
 app.get('/start/:id', (req,res)=>{
-  Start.findById(req.params.id, (error, threadId)=>{
-    res.render('show.ejs',{
-    start : threadId
-      })
+  Start.find({}, (error, allThreads) => {
+		res.render('show.ejs', {
+			start: allThreads
     })
-  });
+  })
+})
 
   app.post('/start', (req, res) => {
     Start.create(req.body, (error, createdStart) => {
@@ -58,7 +58,7 @@ app.get('/start/:id', (req,res)=>{
         console.log(error)
       }
       else{
-        res.redirect('/start')
+        res.redirect('/start/id')
        }
     })
   })
@@ -67,7 +67,7 @@ app.get('/start/:id', (req,res)=>{
       if (err){
         console.log(err)
       } else {
-        res.redirect('/start')
+        res.redirect('/start/id')
       }
     })
   })
@@ -109,7 +109,7 @@ mongoose.connect(mongoURI, {
 // })
 
 app.put('/start/:id', (req, res) => {
-  Start.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, updateId) => {    res.redirect('/start')
+  Start.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, updateId) => {    res.redirect('/start/id')
   })
 })
 
