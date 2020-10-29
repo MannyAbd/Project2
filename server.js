@@ -1,15 +1,18 @@
 const express = require('express');
 const app = express();
-const PORT = 3000
 const mongoose = require('mongoose');
 const Start = require('./models/start.js')
-const mongoURI = 'mongodb://localhost:27017/';
 const ejs = require('ejs');
 const methodOverride = require('method-override')
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
+require('dotenv').config()
+
+const mongodbURI = process.env.MONGODBURI
+const PORT = process.env.PORT
 
 app.get('/', ( req, res )=>{
   res.send('!');
@@ -79,13 +82,9 @@ app.get('/start/:id/edit', (req, res) =>{
   })
 })
 
-mongoose.connect(mongoURI, {
-  useFindAndModify: false,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}, () => {
-  console.log('the connection with mongod is established');
-});
+mongoose.connect(mongodbURI ,  { useNewUrlParser: true, useUnifiedTopology: true})
+.then(() => console.log("Database Connected Successfully", mongodbURI))
+.catch(err => console.log(err))
 
 // db.on('error', (err) => console.log(err.message + ' is mongod not running?'))
 // db.on('connected', () => console.log('mongo connected: ', mongoURI))
