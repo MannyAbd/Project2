@@ -5,10 +5,11 @@ const mongoose = require('mongoose');
 const Start = require('./models/start.js')
 const mongoURI = 'mongodb://localhost:27017/';
 const ejs = require('ejs');
-
+const methodOverride = require('method-override')
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'))
+app.use(methodOverride('_method'))
 
 app.get('/', ( req, res )=>{
   res.send('!');
@@ -51,27 +52,30 @@ app.get('/start/:id', (req,res)=>{
     })
   });
 
-app.delete('/start/:id', (req, res) =>{
-  Start.findByIdAndRemove(req.params.id, (err, id)=>{
-    res.redirect('/start')
-  })
-})
-
-app.get('/start/:id/edit', (req, res) =>{
-  Start.findById(req.params.id, (err, editThread) =>{
-    res.render('edit.ejs', {
-      id: editThread
+  app.post('/start', (req, res) => {
+    Start.create(req.body, (error, createdStart) => {
+      if (error) {
+        console.log(error)
+      }
+      else{
+        res.redirect('/start')
+       }
     })
   })
-})
-app.post('/start/thread', (req, res) => {
-  Start.create(req.body, (error, createdStart) => {
-    if (error) {
-      console.log(error)
-    }
-    else{
-      res.redirect('/start')
-     }
+  app.delete('/start/:id', (req, res) =>{
+    Start.findByIdAndRemove(req.params.id, (err, threadId)=>{
+      if (err){
+        console.log(err)
+      } else {
+        res.redirect('/start')
+      }
+    })
+  })
+app.get('/start/:id/edit', (req, res) =>{
+  Start.findById(req.params.id, (err, threadId) =>{
+    res.render('edit.ejs', {
+      start: threadId
+    })
   })
 })
 
@@ -104,10 +108,10 @@ mongoose.connect(mongoURI, {
 //   res.redirect('/start/')
 // })
 
-// app.put('/start/:id', (req, res) => {
-//   Start[req.params.id] = req.body
-//   res.redirect('/thread')
-// })
+app.put('/start/:id', (req, res) => {
+  Start.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, updateId) => {    res.redirect('/start')
+  })
+})
 
 app.listen(PORT, () => {
   console.log('listening on port', PORT)

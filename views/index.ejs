@@ -4,10 +4,11 @@
     <li>
       <% for(let i = 0; i < start.length; i++) { %>
         <a href="/start/<%=start[i].id; %>"> <%=start[i].title%></a>
-            <form action="/start/<%=i%>?_method=DELETE" method="POST">
-               <button>delete</button>
-               <a href="/start/<%=i%>/edit">Edit</a>
+
+            <form  action="/start/<%=start[i].id%>?_method=DELETE" method="POST" >
+               <input type="submit" value="DELETE">
              </form>
+             <a href="/start/<%=start[i].id%>/edit">Edit</a>
     </li>
   <%}%>
 </ul>
